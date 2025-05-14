@@ -11,11 +11,11 @@ namespace ServiceContract.DTO
     public class CountryAddRequest
     {
         [Required(ErrorMessage = "Country Name is required.")]
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
 
-        public Country ToCountry(CountryAddRequest addRequest)
+        public Country ToCountry()
         {
-            return new Country { CountryName = addRequest.CountryName };
+            return new Country { CountryName = CountryName };
         }
     }
 }

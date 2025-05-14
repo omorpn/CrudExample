@@ -11,7 +11,7 @@ namespace ServiceContract.DTO
     {
         public Guid CountryId { get; set; }
 
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
     }
     public static class CountryExtension
     {
