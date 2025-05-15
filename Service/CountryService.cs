@@ -11,9 +11,9 @@ namespace Service
         private readonly List<Country> _countries;
         public CountryService()
         {
-            _countries = new();
+            _countries =new List<Country>();
         }
-        public CountryResponse AddCountry(CountryAddRequest countryAddRequest)
+        public CountryResponse? AddCountry(CountryAddRequest countryAddRequest)
         {
             //check if the countryAddRequest is null
             if (countryAddRequest == null)
@@ -45,16 +45,27 @@ namespace Service
 
 
             //convert to Countryresponse
-            CountryResponse countryResponse = country.ToCountryResponse();
-            return countryResponse;
-
+           return country.ToCountryResponse();
 
 
         }
 
         public List<CountryResponse> GetAllCountries()
         {
-            throw new NotImplementedException();
+            return _countries.Select(country => country.ToCountryResponse())
+                .ToList();
+        }
+
+        public CountryResponse? GetCountryById(Guid? countryId)
+        {
+            if(_countries == null)
+            {
+                return null;
+            }
+
+            return _countries.Where(country => country.CountryId == countryId)
+                .Select(country => country.ToCountryResponse())
+                .FirstOrDefault();
         }
     }
 }

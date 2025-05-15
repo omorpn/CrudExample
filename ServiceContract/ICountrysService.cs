@@ -14,7 +14,9 @@ namespace ServiceContract
         /// <summary>
         /// Get all countries
         /// </summary>
-        /// <returns>returs list of country</returns>
+        /// <returns>returns list of countries</returns>
         List<CountryResponse> GetAllCountries();
+
+        CountryResponse? GetCountryById(Guid? countryId);
     }
 }
