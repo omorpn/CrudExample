@@ -12,7 +12,7 @@ namespace ServiceContract.DTO
         public string? PersonName { get; set; }
         public string? Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public GenderOption? Gender { get; set; }
+        public string? Gender { get; set; }
         public Guid? CountryId { get; set; }
         public string? Country { get; set; }
         public string? Address { get; set; }
@@ -56,7 +56,12 @@ namespace ServiceContract.DTO
         {
             
 
-            return new PersonResponse() { PersonId = person.PersonId, PersonName = person.PersonName, Email = person.Email, DateOfBirth = person.DateOfBirth, Gender = person.Gender, CountryId = person.CountryId,Country=person.Country, Address = person.Address, Age = (person.DateOfBirth !=null)?(int)Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25):null, ReceiveNewsLetter = person.ReceiveNewsLetter };
+            return new PersonResponse() { PersonId = person.PersonId, PersonName = person.PersonName,
+                Email = person.Email, DateOfBirth = person.DateOfBirth,
+                Gender = person.Gender, CountryId = person.CountryId, 
+                 Address = person.Address,
+                Age = (person.DateOfBirth !=null)?(int)Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25):null, 
+                ReceiveNewsLetter = person.ReceiveNewsLetter };
         }
     }
 }

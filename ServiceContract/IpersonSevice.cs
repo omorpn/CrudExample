@@ -14,7 +14,7 @@ namespace ServiceContract
         /// </summary>
         /// <param name="request">the personRequest to add</param>
         /// <returns> object of personResponse</returns>
-        PersonResponse AddPerson(PersonAddRequest request);
+        PersonResponse? AddPerson(PersonAddRequest request);
         /// <summary>
         /// Get the list of personResponse object
         /// </summary>
@@ -25,13 +25,15 @@ namespace ServiceContract
         /// </summary>
         /// <param name="personId">the Guid person id</param>
         /// <returns>the object of personResponse</returns>
-        PersonResponse GetPersonById(Guid? personId);
+        PersonResponse? GetPersonById(Guid? personId);
         
         /// <summary>
         /// Get personResponse object by person email 
         /// </summary>
         /// <param name="personId">the email </param>
         /// <returns>the object of personResponse</returns>
-        PersonResponse GetPersonByEmail(string? email);
+        PersonResponse? GetPersonByEmail(string? email);
+
+        List<PersonResponse> Filter(string? sortBy, string seachBy);
     }
 }

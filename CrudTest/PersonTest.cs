@@ -11,9 +11,11 @@ namespace CrudTest
     public class PersonTest
     {
         private readonly IpersonSevice _personSevice;
+        private readonly ICountrysService _countryService;
         public PersonTest()
         {
             _personSevice = new PersonService();
+            _countryService = new CountryService();
         }
         #region Add Person
         //When the person object is null it returns null
@@ -73,7 +75,11 @@ namespace CrudTest
         {
             //Arrange
             PersonAddRequest person_from_add_person = new() { FirstName = "Tunde", LastName = "Daniel", Email = "damiel@gmail.com", DateOfBirth = DateTime.Parse("1923/12/04"), Gender = GenderOption.Male };
+            CountryAddRequest? countryRequest = new() { CountryName = "Japan" };
+
             //Act
+            CountryResponse countryResponse = _countryService.AddCountry(countryRequest);
+            person_from_add_person.CountryId=countryResponse.CountryId;
             PersonResponse? expected_person = _personSevice.AddPerson(person_from_add_person);
             List<PersonResponse> list_of_person_responses = _personSevice.GetAllPerson();
 
@@ -133,7 +139,7 @@ namespace CrudTest
             //Arrange
             Guid? user_id = null;
             //Act
-            PersonResponse autual_person = _personSevice.GetPersonById(user_id);
+            PersonResponse? autual_person = _personSevice.GetPersonById(user_id);
             //Assert
             Assert.Null(autual_person);
         }
@@ -141,14 +147,45 @@ namespace CrudTest
         [Fact]
         public void GetPersonById_user_id()
         {
-
-
+            //Arragne
+            PersonAddRequest person_from_add_person = new() { FirstName = "Tunde", LastName = "Daniel", Email = "damiel@gmail.com", DateOfBirth = DateTime.Parse("1923/12/04"), Gender = GenderOption.Male };
+            //Act
+            PersonResponse? person = _personSevice.AddPerson(person_from_add_person);
+            PersonResponse? autual_person = _personSevice.GetPersonById(person.PersonId);
+            List<PersonResponse> expected_list = _personSevice.GetAllPerson();
+            //Assert
+            Assert.Contains(autual_person, expected_list);
         }
 
 
 
         #endregion
         #region Get Person By Email
+
+        //Get the null value of personResponse
+        [Fact]
+        public void GetPersonById_null_email()
+        {
+            //Arrange
+            string? user_email = null;
+            //Act
+            PersonResponse? autual_person = _personSevice.GetPersonByEmail(user_email);
+            //Assert
+            Assert.Null(autual_person);
+        }
+        //Get personResponse object 
+        [Fact]
+        public void GetPersonById_user_id_email()
+        {
+            //Arragne
+            PersonAddRequest person_from_add_person = new() { FirstName = "Tunde", LastName = "Daniel", Email = "damiel@gmail.com", DateOfBirth = DateTime.Parse("1923/12/04"), Gender = GenderOption.Male };
+            //Act
+            PersonResponse? person = _personSevice.AddPerson(person_from_add_person);
+            PersonResponse? autual_person = _personSevice.GetPersonByEmail(person.Email);
+            List<PersonResponse> expected_list = _personSevice.GetAllPerson();
+            //Assert
+            Assert.Contains(autual_person, expected_list);
+        }
         #endregion
 
 

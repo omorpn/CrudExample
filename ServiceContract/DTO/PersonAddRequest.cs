@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Entities;
 
 namespace ServiceContract.DTO
@@ -17,9 +18,10 @@ namespace ServiceContract.DTO
        
         [DisplayName("Last Name")]
         public string? LastName { get; set; }
-        [DisplayName("Emmail Address")]
+        [DisplayName("Email Address")]
 
         [Required(ErrorMessage = "{0} can't be null or empty")]
+        [NotNull]
         [EmailAddress(ErrorMessage ="{0} must be of type email")]
         public string? Email { get; set; }
         
@@ -27,7 +29,6 @@ namespace ServiceContract.DTO
         public GenderOption Gender { get; set; }
 
         public Guid? CountryId { get; set; }
-        public string? Country { get; set; }
         public string? Address { get; set; }
         public bool ReceiveNewsLetter { get; set; }
         public Person ToPerson()
@@ -35,7 +36,7 @@ namespace ServiceContract.DTO
            
             string PersonName = FirstName + " " + LastName;
 
-            return new Person(PersonName,Email,DateOfBirth,Gender,CountryId,Country,Address,ReceiveNewsLetter);
+            return new Person(PersonName, Email, DateOfBirth, Gender.ToString(), CountryId, Address, ReceiveNewsLetter);
         }
     }
 }

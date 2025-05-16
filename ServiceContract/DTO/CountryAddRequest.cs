@@ -10,11 +10,15 @@ namespace ServiceContract.DTO
 {
     public class CountryAddRequest
     {
-        [Required(ErrorMessage = "Country Name is required.")]
+        [Required(ErrorMessage = "{0} can't be null or empty.")]
         public string? CountryName { get; set; }
 
-        public Country ToCountry()
+        public Country? ToCountry()
         {
+            if(CountryName == null)
+            {
+                return null;
+            }
             return new Country { CountryName = CountryName };
         }
     }

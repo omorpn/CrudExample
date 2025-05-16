@@ -13,7 +13,7 @@ namespace Service
         {
             _countries =new List<Country>();
         }
-        public CountryResponse? AddCountry(CountryAddRequest countryAddRequest)
+        public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
         {
             //check if the countryAddRequest is null
             if (countryAddRequest == null)
@@ -35,7 +35,7 @@ namespace Service
             }
  
             //convert countryAddrequst into country type
-             Country country = countryAddRequest.ToCountry();
+             Country? country = countryAddRequest.ToCountry();
 
             //Generate CountryId
             country.CountryId = Guid.NewGuid();
