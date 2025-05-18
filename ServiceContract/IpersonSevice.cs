@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceContract.DTO;
- 
+using ServiceContract.Enums;
+
 namespace ServiceContract
 {
     public interface IpersonSevice
@@ -33,7 +34,20 @@ namespace ServiceContract
         /// <param name="personId">the email </param>
         /// <returns>the object of personResponse</returns>
         PersonResponse? GetPersonByEmail(string? email);
-
-        List<PersonResponse> Filter(string? sortBy, string seachBy);
+        /// <summary>
+        /// Get the Person Response By search with sortBy and 
+        /// </summary>
+        /// <param name="sortBy"> </param>
+        /// <param name="searchBy"></param>
+        /// <returns> list of sorted personResponse object</returns>
+        List<PersonResponse> Filter(string? sortBy, string searchBy);
+        /// <summary>
+        /// Get the persponResponse sorted 
+        /// </summary>
+        /// <param name="persons">List of PersonResponse</param>
+        /// <param name="sortBy">sortiing order</param>
+        /// <param name="searchstring">sorting String</param>
+        /// <returns></returns>
+        List<PersonResponse> SortedPerson(List<PersonResponse> allPersons,SortOrderOption sortOrder, string sortby);
     }
 }
