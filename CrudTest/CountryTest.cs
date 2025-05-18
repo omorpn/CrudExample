@@ -66,7 +66,7 @@ namespace CrudTest
             });
         }
 
-        //When you supply proper country it should insert (insert) the country to existing list of country
+        //When you supply proper country it should insert (add) the country to existing list of country
         [Fact]
         public void AddCountry_ProperCountry()
         {
