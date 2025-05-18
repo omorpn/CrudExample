@@ -25,36 +25,21 @@ namespace Service
 
            if(!string.IsNullOrEmpty(searchString) || !string.IsNullOrEmpty(searchBy))
             {
-                switch (searchBy)
+                matchingPerson = searchBy switch
                 {
-                    case nameof(Person.PersonId):
-                        matchingPerson= allPerson.Where(temp => (!string.IsNullOrEmpty(temp.PersonName)?
-                        temp.PersonName.Contains(searchBy,StringComparison.OrdinalIgnoreCase):true)).ToList();
-                            break;
-                    case nameof(Person.Email):
-                        matchingPerson = allPerson.Where(temp => (!string.IsNullOrEmpty(temp.Email) ?
-                        temp.Email.Contains(searchBy, StringComparison.OrdinalIgnoreCase) : true)).ToList();
-                        break;
-                    case nameof(Person.CountryId):
-                        matchingPerson = allPerson.Where(temp => (!string.IsNullOrEmpty(temp.Country) ?
-                        temp.Country.Contains(searchBy, StringComparison.OrdinalIgnoreCase) : true)).ToList();
-                        break;
-                    case nameof(Person.Address):
-                        matchingPerson = allPerson.Where(temp => (!string.IsNullOrEmpty(temp.Address) ?
-                        temp.Address.Contains(searchBy, StringComparison.OrdinalIgnoreCase) : true)).ToList();
-                        break;
-                    case nameof(Person.Gender):
-                        matchingPerson =allPerson.Where(temp=>(temp.Gender != null)?
-                        temp.Gender.Contains(searchBy, StringComparison.OrdinalIgnoreCase) : true).ToList();
-                        break;
-                    case nameof(Person.DateOfBirth):
-                        matchingPerson= allPerson.Where(temp=>(temp.DateOfBirth != null)?
-                        temp.DateOfBirth.Value.ToString("dd MM yyyy").Contains(searchBy,  StringComparison.OrdinalIgnoreCase) : true).ToList();
-                        break;
-                    default:
-                        matchingPerson = allPerson;
-                        break;
-                }
+                    nameof(Person.PersonId) => allPerson.Where(temp => (!string.IsNullOrEmpty(temp.PersonName) ?
+                                            temp.PersonName.Contains(searchBy, StringComparison.OrdinalIgnoreCase) : true)).ToList(),
+                    nameof(Person.Email) => [..allPerson.Where(temp => temp.Email== null ||
+                        temp.Email.Contains(searchBy, StringComparison.OrdinalIgnoreCase))],
+                    nameof(Person.CountryId) => [..allPerson.Where(temp => temp.Country ==null ||
+                        temp.Country.Contains(searchBy, StringComparison.OrdinalIgnoreCase) )],
+                    nameof(Person.Address) => [..allPerson.Where(temp => temp.Address ==null ||
+                        temp.Address.Contains(searchBy, StringComparison.OrdinalIgnoreCase) )],
+                    nameof(Person.Gender) => [.. allPerson.Where(temp => temp.Gender == null || temp.Gender.Contains(searchBy, StringComparison.OrdinalIgnoreCase))],
+                    nameof(Person.DateOfBirth) => [..allPerson.Where(temp=> temp.DateOfBirth == null||
+                        temp.DateOfBirth.Value.ToString("dd MM yyyy").Contains(searchBy,  StringComparison.OrdinalIgnoreCase))],
+                    _ => allPerson,
+                };
             }
             return matchingPerson;
         }
@@ -92,10 +77,8 @@ namespace Service
         PersonResponse IpersonSevice.AddPerson(PersonAddRequest request)
         {
             //check the Personrequest object if null
-            if(request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+             ArgumentNullException.ThrowIfNull(nameof(request));
+        
             //validate personrequest object
              ValidationHelpers.ModelValidation(request);
 
@@ -117,9 +100,9 @@ namespace Service
 
             if(_persons == null)
             {
-                return null;
+                return [ ] ;
             }
-            return _persons.Select(person=> ToPersonResponse(person)).ToList();
+            return [.. _persons.Select(person=> ToPersonResponse(person))];
           
         }
 
@@ -134,33 +117,33 @@ namespace Service
                 switch
             {
                 (nameof(PersonResponse.PersonName), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp=> temp.PersonName,StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderBy(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.PersonName), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp=> temp.PersonName,StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Email), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp => temp.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderBy(temp => temp.Email, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Email), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.Email, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Age), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp => temp.Age).ToList(),
+                => [.. allPersons.OrderBy(temp => temp.Age)],
                 (nameof(PersonResponse.Age), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.Age).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.Age)],
                 (nameof(PersonResponse.Address), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp => temp.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderBy(temp => temp.Address, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Address), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.Address, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.DateOfBirth), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp => temp.DateOfBirth).ToList(),
+                =>[.. allPersons.OrderBy(temp => temp.DateOfBirth)],
                 (nameof(PersonResponse.DateOfBirth), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.DateOfBirth).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.DateOfBirth)],
                 (nameof(PersonResponse.Gender), SortOrderOption.ASC)
-                => allPersons.OrderBy(temp => temp.Gender, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [..allPersons.OrderBy(temp => temp.Gender, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Gender), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.Gender, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [..allPersons.OrderByDescending(temp => temp.Gender, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Country), SortOrderOption.ASC)
-               => allPersons.OrderBy(temp => temp.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+               => [.. allPersons.OrderBy(temp => temp.Country, StringComparer.OrdinalIgnoreCase)],
                 (nameof(PersonResponse.Country), SortOrderOption.DESC)
-                => allPersons.OrderByDescending(temp => temp.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+                => [.. allPersons.OrderByDescending(temp => temp.Country, StringComparer.OrdinalIgnoreCase)],
                 _=>allPersons
 
             };

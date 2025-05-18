@@ -11,15 +11,12 @@ namespace Service
         private readonly List<Country> _countries;
         public CountryService()
         {
-            _countries =new List<Country>();
+            _countries = [];
         }
         public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
         {
             //check if the countryAddRequest is null
-            if (countryAddRequest == null)
-            {
-                throw new ArgumentNullException(nameof(countryAddRequest));
-            }
+            ArgumentNullException.ThrowIfNull(countryAddRequest);
             // check if the countryAddRequest Name is null
             if (countryAddRequest.CountryName == null)
             {
@@ -52,8 +49,7 @@ namespace Service
 
         public List<CountryResponse> GetAllCountries()
         {
-            return _countries.Select(country => country.ToCountryResponse())
-                .ToList();
+            return [.._countries.Select(country => country.ToCountryResponse())];
         }
 
         public CountryResponse? GetCountryById(Guid? countryId)
