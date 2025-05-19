@@ -14,8 +14,8 @@ namespace CrudTest
         private readonly ICountrysService _countryService;
         public PersonTest()
         {
-            _personSevice = new PersonService();
-            _countryService = new CountryService();
+            _personSevice = new PersonService(false);
+            _countryService = new CountryService(false);
         }
         #region Add Person
         //When the person object is null it returns null

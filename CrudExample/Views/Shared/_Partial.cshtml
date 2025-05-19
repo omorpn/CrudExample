@@ -1,0 +1,21 @@
+﻿@using ServiceContract.DTO;
+@using ServiceContract.Enums;
+
+ 
+
+
+@if (ViewBag.SortBy ==ViewBag.ColumName && ViewBag.SortOrder == SortOrderOption.ASC.ToString())
+{
+    <th><a href="~/?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@ViewBag.ColumName&sortOrder=@SortOrderOption.DESC">@ViewBag.Name</a><i class="fa-solid fa-sort-up"></i></th>
+
+}
+else if (ViewBag.SortBy == ViewBag.ColumName && ViewBag.SortOrder == SortOrderOption.DESC.ToString())
+{
+    <th><a href="~/?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@ViewBag.ColumName&sortOrder=@SortOrderOption.ASC">@ViewBag.Name</a><i class="fa-solid fa-sort-down"></i></th>
+
+}
+else
+{
+    <th><a href="~/?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@ViewBag.ColumName&sortOrder=@SortOrderOption.ASC">@ViewBag.Name</a></th>
+
+}

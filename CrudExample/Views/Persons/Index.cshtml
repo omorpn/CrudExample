@@ -1,0 +1,86 @@
+﻿
+<form action="~/" method="get">
+
+    <div class=" flex-borderless box">
+        <div class="flex-1">
+            <select name="searchBy" class="form-input">
+                @foreach (var options in ViewBag.SelectOption)
+                {
+                    @if (options.Key == ViewBag.SearchBy)
+                    {
+                        <option value="@options.Key" selected="selected">@options.Value</option>
+
+                    }
+                    <option value="@options.Key">@options.Value</option>
+
+
+                }
+            </select>
+        </div>
+        <div class="flex-1">
+            <input type="search" name="searchString" id="Search" class="form-input"
+                   placeholder="Search" value="@ViewBag.SearchString" />
+        </div>
+        <div class="flex-1">
+            <button class="button button-green-back"> Search</button>
+            <a href="~/">Reset search</a>
+        </div>
+    </div>
+
+
+
+
+    <table class="table w-100 mt">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.PersonName)},
+                { "Name","Person Name" }
+                }) 
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.Email)},
+                { "Name","Email" }
+                })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.DateOfBirth)},
+                { "Name","Date Of Birth" }
+                })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.Country)},
+                { "Name","Country" }    })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.Age)},
+                { "Name","Age" }   })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.Gender)},
+                { "Name","Gender" }   })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.Address)},
+                { "Name","Address" }   })
+                @await Html.PartialAsync("_Partial", new ViewDataDictionary(ViewData){
+                {"ColumName",nameof(PersonResponse.ReceiveNewsLetter)},
+                { "Name","Receive News Letters" }   })
+               
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (PersonResponse person in Model)
+            {
+                <tr>
+                    <td></td>
+                    <td>@person.PersonName</td>
+                    <td>@person.Email</td>
+                    <td>@person.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td>@person.Country?.ToUpper()</td>
+                    <td>@person.Age</td>
+                    <td>@person.Gender?.ToUpper()</td>
+                    <td>@person.Address</td>
+                    <td>@person.ReceiveNewsLetter</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
